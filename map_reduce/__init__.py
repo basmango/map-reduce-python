@@ -4,6 +4,8 @@ import sys
 import os
 import subprocess
 import multiprocessing
+
+
 class TASKS(Enum):
     INVERTED_INDEX = 1
     WORD_COUNT = 2
@@ -29,7 +31,6 @@ class ConfigMap:
 
     def __str__(self) -> str:
         return f"Number of mappers: {self.num_mappers} \nNumber of reducers: {self.num_reducers} \nTask: {self.task} \nInput directory: {self.input_dir} \nOutput directory: {self.output_dir} \nIntermediate directory: {self.intermediate_dir}"
-
 
 
 class MapReduce:
@@ -75,6 +76,3 @@ class MapReduce:
 
     def _spawn_reducers(self) -> None:
         pass
-
-
-

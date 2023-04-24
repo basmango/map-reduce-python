@@ -2,18 +2,18 @@
 
 from abc import ABC, abstractmethod
 
+
 class MapReduce(ABC):
     def __init__(self, num_mappers: int, num_reducers: int) -> None:
         self.num_mappers = num_mappers
         self.num_reducers = num_reducers
-        
 
     @abstractmethod
-    def map(self, key: str, value: str) :
+    def map(self, key: str, value: str):
         pass
 
     @abstractmethod
-    def reduce(self, key ,values ) :
+    def reduce(self, key, values):
         pass
 
     @abstractmethod

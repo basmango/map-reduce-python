@@ -28,7 +28,9 @@ def run(
     # perform task checking
     task = _task.upper()
     if task not in TASKS.__members__:
-        raise ValueError(f"Task not supported, supported tasks are: {list(TASKS.__members__.keys())}")
+        raise ValueError(
+            f"Task not supported, supported tasks are: {list(TASKS.__members__.keys())}"
+        )
     else:
         task = TASKS[task]
 
@@ -61,7 +63,7 @@ def run(
 if __name__ == "__main__":
     # handle execution
 
-    try: 
+    try:
         glacier([test, run])
     except Exception as e:
         print(e)
