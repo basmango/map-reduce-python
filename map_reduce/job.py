@@ -1,33 +1,35 @@
 # abstacct class for map reduce job, defines the following : map,reduce and hash and sort functions
 
-from abc import ABC, abstractmethod
+from abc import ABC,abstractmethod
+from enum import Enum
 
 
-class MapReduce(ABC):
-    def __init__(self, num_mappers: int, num_reducers: int) -> None:
-        self.num_mappers = num_mappers
-        self.num_reducers = num_reducers
+class BaseMapReduceJob():
 
-    @abstractmethod
-    def map(self, key: str, value: str):
+    def map( key: str, value: str):
         pass
 
-    @abstractmethod
-    def reduce(self, key, values):
+    def reduce( key, values):
         pass
 
-    @abstractmethod
-    def hash(self, key) -> int:
+    def hash( key) :
+        return hash(key)
+    
+
+    def sort( key) :
+        return key
+
+    def read_and_split_mapper_input( input_file: str):
+        """
+        Reads the mapper input file and splits it into key value pairs
+        """
         pass
 
-    @abstractmethod
-    def compare(self, key1: str, key2: str) -> bool:
+    def read_and_split_reducer_input( input_file: str):
+        """
+        Reads the reducer input (intermediate) file and splits it into key value pairs
+        """
         pass
 
-    @abstractmethod
-    def pre_process_map(self, key: str, value: str):
-        pass
-
-    @abstractmethod
-    def pre_process_reduce(self, key, values):
-        pass
+    
+    

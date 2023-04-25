@@ -4,10 +4,10 @@ import sys
 import os
 import subprocess
 import multiprocessing
+from map_reduce.job import BaseMapReduceJob
 
-
-class TASKS(Enum):
-    INVERTED_INDEX = 1
+class TASKS(BaseMapReduceJob,Enum):
+    INVERTED_INDEX = BaseMapReduceJob
     WORD_COUNT = 2
     NATURAL_JOIN = 3
 
