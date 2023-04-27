@@ -42,8 +42,8 @@ class Reducer:
             self.sequence_id = response.worker_sequence_id
 
             job = self.config.task.value
-            self.kv_pairs = job.read_and_split_reducer_input(
-                self.config.intermediate_dir, self.sequence_id
+            self.kv_pairs = job.parse_reducer_input(
+                self.config.intermediate_dir, self.sequence_id,self.config.num_mappers
             )
 
             reducer_result = job.reduce(self.kv_pairs)

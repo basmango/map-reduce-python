@@ -18,13 +18,13 @@ class InvertedIndexJob(BaseMapReduceJob):
     def sort(key):
         return key
 
-    def read_and_split_mapper_input(input_dir, sequence_id):
+    def parse_mapper_input(input_dir, sequence_id):
         """
         Reads the mapper input file and splits it into key value pairs
         """
         pass
 
-    def read_and_split_reducer_input(intermediate_dir, sequence_id):
+    def parse_reducer_input(intermediate_dir, sequence_id):
         """
         Reads the reducer input (intermediate) file and splits it into key value pairs
         """

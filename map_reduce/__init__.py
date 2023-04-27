@@ -82,6 +82,5 @@ class MapReduce:
         data_classes_pb2_grpc.add_masterServicer_to_server(Master(self.config), server)
         server.add_insecure_port("[::]:50051")
         server.start()
-        print("Master node started")
 
         server.wait_for_termination()

@@ -14,20 +14,21 @@ class BaseMapReduceJob:
     def hash(key):
         return hash(key)
 
-    def sort(key):
-        return key
+    def sort(array):
+        return array
 
-    def read_and_split_mapper_input(input_dir, sequence_id):
+    def parse_mapper_input(input_dir, sequence_id):
         """
         Reads the mapper input file and splits it into key value pairs
         """
+        # read file 'Input{sequence_id}' from input_dir, tokenize all words and convert to key value pairs
         pass
 
-    def read_and_split_reducer_input(intermediate_dir, sequence_id):
+    def parse_reducer_input(intermediate_dir, sequence_id):
         """
         Reads the reducer input (intermediate) file and splits it into key value pairs
         """
-        pass
+        # read file 'Input{sequence_id}' from in
 
     def write_mapper_output(kv_pairs, intermediate_dir, sequence_id, reducer_count):
         """
@@ -50,4 +51,4 @@ class BaseMapReduceJob:
         """
         # write to output directory
         # create empty partitions
-        open(output_dir + "/Output_" + str(sequence_id), "a").close()
+        open(output_dir + "/Output" + str(sequence_id)+".txt", "a").close()
