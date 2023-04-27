@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package data_classes;
+
+
+// Registry Server RPCs
+service master
+{
+    rpc register(RegisterRequest) returns (RegisterResponse) {}
+}
+message RegisterRequest
+{
+    string uuid = 1;
+    string registration_type = 2;
+}
+message RegisterResponse
+{
+ int32 num_mappers = 1;
+ int32 num_reducers = 2;
+ string task = 3;
+ string input_directory = 4;
+ string output_directory = 5;
+ string intermediate_directory = 6;
+ int32 worker_sequence_id = 7;
+}
+
+message SimpleString
+{
+    string str = 1;
+}

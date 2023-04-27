@@ -2,7 +2,8 @@
 # python cli for performing map reduce
 
 from glacier import glacier
-from map_reduce import MapReduce, TASKS
+from map_reduce import MapReduce
+from map_reduce.config_map import TASKS
 import os, sys
 
 
@@ -32,6 +33,7 @@ def run(
             f"Task not supported, supported tasks are: {list(TASKS.__members__.keys())}"
         )
     else:
+        # set task to enum task of same key name
         task = TASKS[task]
 
     # check if input_dir exists
