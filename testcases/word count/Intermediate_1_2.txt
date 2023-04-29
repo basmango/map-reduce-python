@@ -1,0 +1,4 @@
+('This', 1)
+('apple', 1)
+('Apple', 1)
+('color', 1)
