@@ -36,7 +36,7 @@ To run the MapReduce framework, follow these steps:
 
 Clone the repository:
 ```
-git clone https://github.com/your_username/map-reduce-python.git
+git clone https://github.com/basmango/map-reduce-python.git
 ```
 
 Navigate to the cloned repository:
