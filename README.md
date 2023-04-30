@@ -1,6 +1,6 @@
 # MapReduce Python Implementation
 
-This repository contains an implementation of the MapReduce framework in Python, developed as a part of the CSE530 Distributed Systems course project. The implementation supports three applications/queries: Word Count, Inverted Index [Record-Level Inverted index], and Natural Join.
+This repository contains an implementation of the MapReduce framework in Python, developed as a part of the CSE530 Distributed Systems course project at XYZ University. The implementation supports three applications/queries: Word Count, Inverted Index [Record-Level Inverted index], and Natural Join.
 
 ## Components Implemented
 
@@ -36,7 +36,7 @@ To run the MapReduce framework, follow these steps:
 
 Clone the repository:
 ```
-git clone https://github.com/basmango/map-reduce-python.git
+git clone https://github.com/your_username/map-reduce-python.git
 ```
 
 Navigate to the cloned repository:
@@ -55,9 +55,18 @@ use the cli to run the framework
 ./mr-cli.py --help
 ```
 
-Run testcases:
+Run tests:
 ```
 ./mr-cli.py run  2 2 NATURAL_JOIN testcases/natural\ join
 ./mr-cli.py run  3 2 WORD_COUNT testcases/word\ count
 ./mr-cli.py run  3 2 INVERTED_INDEX testcases/inverted\ index
 ```
+
+## Adding custom jobs  
+
+To add a custom job, you need to create a new class that inherits from the `Job` class and implement the `map` and `reduce` methods.
+then add the job to the TASKS enum in the map_reduce/config_map.py file and you are good to go.
+
+## References
+
+[1] [MapReduce: Simplified Data Processing on Large Clusters](https://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf)
