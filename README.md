@@ -1,6 +1,6 @@
 # MapReduce Python Implementation
 
-This repository contains an implementation of the MapReduce framework in Python, developed as a part of the CSE530 Distributed Systems course project at XYZ University. The implementation supports three applications/queries: Word Count, Inverted Index [Record-Level Inverted index], and Natural Join.
+This repository contains an implementation of the MapReduce framework in Python, developed as a part of the CSE530 Distributed Systems course project. The implementation supports three applications/queries: Word Count, Inverted Index [Record-Level Inverted index], and Natural Join.
 
 ## Components Implemented
 
