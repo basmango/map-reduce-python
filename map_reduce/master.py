@@ -1,6 +1,3 @@
-# master class in map reduce, has function to start grpc server
-
-# Path: map_reduce/master.py
 import multiprocessing
 from concurrent import futures
 import grpc

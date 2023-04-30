@@ -1,4 +1,3 @@
-# abstacct class for map reduce job, defines the following : map,reduce and hash and sort functions
 
 from abc import ABC, abstractmethod
 from enum import Enum
@@ -16,10 +15,6 @@ class NaturalJoinJob(BaseMapReduceJob):
 
         mapper_out_dict = {}
 
-        # you have the common column stored already, you know all the columns present in both the tables, you have the values for all the columns of each table in table1_arr and table2_arr
-        # iterate over all columns of table 1, and store the values in a dictionary with the key as the common column value, and the value as the entire row, also store the table number
-        # iterate over all columns of table 2, and store the values in a dictionary with the key as the common column value, and the value as the entire row, also store the table number
-        # if the key is already present in the dictionary, append the value to the list of values for that key
 
         for row in table1_arr:
             key = row[NaturalJoinJob.common_col_index[0]]
@@ -44,11 +39,6 @@ class NaturalJoinJob(BaseMapReduceJob):
         """
         Writes the mapper output to intermediate files
         """
-        # in intermediate directory , first create partitions of the form intermediate_dir_sequence_id_reducer_id, each partition should contain in the first 3 lines, the column names of the two tables and the common column ids respectively
-        # then in the following lines, write the data
-        # hash and mod the key to get the reducer id and write to the corresponding file
-
-        # create partitions
         partitions = []
         for i in range(reducer_count):
             partitions.append(
@@ -102,7 +92,7 @@ class NaturalJoinJob(BaseMapReduceJob):
                 kv_dict[key] = []
             kv_dict[key]+=value
 
-        # now, for each key, make a cartesian product of the values
+        #  for each key, make a cartesian product of the values
         reducer_out = []
         for key in kv_dict:
             table1_rows = []
@@ -147,51 +137,29 @@ class NaturalJoinJob(BaseMapReduceJob):
         """
         Reads the mapper input file and splits it into key value pairs
         """
-        # in input dir input dir, there are two files, one is the left table, the other is the right table
-        # the left table is the first file, the right table is the second file
-        # the first line of each file is the column names
-        # the rest of the lines are the data
-        # the key is the column name, the value is the data
-        # format of table files is inputi_tablej.txt where i is table number and j is mapper number
-
-        # read both  files, for table 1 and 2
-
         table1_file = input_dir + "/input" + str(sequence_id) + "_table1.txt"
         table2_file = input_dir + "/input" + str(sequence_id) + "_table2.txt"
 
-        # read table 1
 
         with open(table1_file, "r") as f:
             table1_data = f.read()
-            # split on new lines
             table1_lines = table1_data.split("\n")
-            # split on spaces
             NaturalJoinJob.table1_cols = table1_lines[0].split(",")
-            # remove the first line
             table1_lines.pop(0)
-
-            # convert all rows to array of tuples
             mapper_table1_input = []
             for line in table1_lines:
                 mapper_table1_input.append(tuple(line.split(",")))
 
-        # read table 2
 
         with open(table2_file, "r") as f:
             table2_data = f.read()
-            # split on new lines
             table2_lines = table2_data.split("\n")
-            # split on spaces
-            # remove the first line
             NaturalJoinJob.table2_cols = table2_lines[0].split(",")
             table2_lines.pop(0)
-
-            # convert all rows to array of tuples
             mapper_table2_input = []
             for line in table2_lines:
                 mapper_table2_input.append(tuple(line.split(",")))
 
-        # iterate over table 1 and table 2 column names and find the common column, store it in common_col_index
 
         for i in range(len(NaturalJoinJob.table1_cols)):
             for j in range(len(NaturalJoinJob.table2_cols)):
@@ -208,11 +176,6 @@ class NaturalJoinJob(BaseMapReduceJob):
         Reads the reducer input (intermediate) file and splits it into key value pairs
         """
 
-        # in intermediate directory , first create partitions of the form intermediate_dir_sequence_id_reducer_id, each partition should contain in the first 3 lines, the column names of the two tables and the common column ids respectively
-        # then in the following lines, write the data
-        # hash and mod the key to get the reducer id and write to the corresponding file
-
-        # read the intermediate file
         reducer_input = []
         for mapper_id in range(1, mapper_count + 1):
             intermediate_file = (
@@ -227,9 +190,6 @@ class NaturalJoinJob(BaseMapReduceJob):
                 intermediate_data = f.read()
                 # split on new lines
                 intermediate_lines = intermediate_data.split("\n")
-                # split on spaces
-                # remove the first 3 lines
-                # read the first 3 lines, and populate appropriate variables
                 NaturalJoinJob.table1_cols = intermediate_lines[0].split(" ")
                 NaturalJoinJob.table2_cols = intermediate_lines[1].split(" ")
                 NaturalJoinJob.common_col_index = tuple(
@@ -245,7 +205,6 @@ class NaturalJoinJob(BaseMapReduceJob):
                 intermediate_lines.pop(0)
                 intermediate_lines.pop(0)
 
-                # convert all rows to array of tuples
                 for line in intermediate_lines:
                     if line == "":
                         continue
@@ -263,7 +222,6 @@ class NaturalJoinJob(BaseMapReduceJob):
 
         output_file = output_dir + "/Output" + str(sequence_id) + ".txt"
 
-        # write the joined column names
         with open(output_file, "w") as f:
             f.write(",".join(NaturalJoinJob.table1_cols))
             f.write(",")

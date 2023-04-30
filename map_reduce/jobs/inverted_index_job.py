@@ -1,4 +1,3 @@
-# abstacct class for map reduce job, defines the following : map,reduce and hash and sort functions
 
 from abc import ABC, abstractmethod
 from enum import Enum
@@ -9,11 +8,9 @@ class InvertedIndexJob(BaseMapReduceJob):
     def map(mapper_in):
         file_id = mapper_in[0]
         lines = mapper_in[1].split("\n")
-        # split on spaces
         words = []
         for line in lines:
             words.extend(line.split(" "))
-        # create key value pairs
         words = set(words)
         kv_pairs = []
         for word in words:
@@ -24,9 +21,6 @@ class InvertedIndexJob(BaseMapReduceJob):
         """
         perform reduce operation on the key value pairs
         """
-        # group by key
-        # sum the values
-        # return the key value pairs
         kv_dict = {}
         for kv_pair in kv_pairs:
             key = kv_pair[0]
@@ -68,7 +62,6 @@ class InvertedIndexJob(BaseMapReduceJob):
         """
         Reads the reducer input (intermediate) file and splits it into key value pairs
         """
-        # read file 'Input{sequence_id}' from input_dir, tokenize all words and convert to key value pairs
         kv_pairs = []
         for i in range(1, mapper_count + 1):
             with open(
@@ -81,11 +74,8 @@ class InvertedIndexJob(BaseMapReduceJob):
                 "r",
             ) as f:
                 data = f.read()
-                # format of text file is ('key',value)
-                # split on new lines
                 lines = data.split("\n")
                 for line in lines:
-                    # split on comma
                     kv_pair = line.split(",")
                     if len(kv_pair) == 2:
                         kv_pairs.append((kv_pair[0][2:-1], int(kv_pair[1][:-1])))
@@ -96,11 +86,6 @@ class InvertedIndexJob(BaseMapReduceJob):
         """
         Writes the mapper output to intermediate files
         """
-        # in intermediate directory , first create empty partitions of the form intermediate_dir_sequence_id_reducer_id
-        # hash and mod the key to get the reducer id and write to the corresponding file
-
-        # create empty partitions
-
         for i in range(1, reducer_count + 1):
             open(
                 intermediate_dir
@@ -112,11 +97,9 @@ class InvertedIndexJob(BaseMapReduceJob):
                 "a",
             ).close()
 
-        # iterate over all key value pairs and use hash function to get the reducer id
         for kv_pair in kv_pairs:
             key = kv_pair[0]
             reducer_id = (InvertedIndexJob.hash(key) % reducer_count) + 1
-            # open the file and append the key value pair
 
             with open(
                 intermediate_dir
@@ -133,12 +116,8 @@ class InvertedIndexJob(BaseMapReduceJob):
         """
         Writes the reducer output to output files
         """
-        # write to output directory
-        # create empty partitions
         open(output_dir + "/Output" + str(sequence_id) + ".txt", "a").close()
-        # iterate over all key value pairs and use hash function to get the reducer id
         for kv_pair in kv_pairs:
-            # open the file and append the key value pair
             with open(
                 output_dir + "/Output" + str(sequence_id) + ".txt",
                 "a",

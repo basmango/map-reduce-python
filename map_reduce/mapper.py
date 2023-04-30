@@ -1,5 +1,3 @@
-# mapper class in map reduce, takes Job enum during initialization
-# from map_reduce.config_map import ConfigMap, TASKS
 import uuid
 import data_classes_pb2_grpc as master_pb2_grpc
 import data_classes_pb2 as master_pb2
@@ -9,7 +7,6 @@ from map_reduce.config_map import ConfigMap, TASKS
 
 class Mapper:
     def __init__(self) -> None:
-        # generate random UUID
         self.uuid = str(uuid.uuid4())
         self.sequence_id = -1
         self.kv_pairs = []
