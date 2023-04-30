@@ -41,9 +41,7 @@ class Mapper:
             self.sequence_id = response.worker_sequence_id
 
             job = self.config.task.value
-            mapper_in = job.parse_mapper_input(
-                self.config.input_dir, self.sequence_id
-            )
+            mapper_in = job.parse_mapper_input(self.config.input_dir, self.sequence_id)
 
             mapper_result = job.map(mapper_in)
 
@@ -53,7 +51,6 @@ class Mapper:
                 self.sequence_id,
                 self.config.num_reducers,
             )
-
 
 
 if __name__ == "__main__":

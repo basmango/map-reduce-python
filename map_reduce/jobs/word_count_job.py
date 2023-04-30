@@ -8,7 +8,7 @@ from map_reduce.jobs.base_job import BaseMapReduceJob
 class WordCountJob(BaseMapReduceJob):
     def map(mapper_in):
         lines = mapper_in.split("\n")
-            # split on spaces
+        # split on spaces
         words = []
         for line in lines:
             words.extend(line.split(" "))
@@ -17,7 +17,6 @@ class WordCountJob(BaseMapReduceJob):
         for word in words:
             kv_pairs.append((word, 1))
         return kv_pairs
-
 
     def reduce(kv_pairs):
         """
@@ -34,13 +33,22 @@ class WordCountJob(BaseMapReduceJob):
                 kv_dict[key] += value
             else:
                 kv_dict[key] = value
-        
+
         return sorted(kv_dict.items(), key=lambda x: x[0])
 
-
-    def hash(key):
-        return hash(key)
-
+    def hash(text):
+          if text is None:
+           return 0
+          if type(text) is int:
+              test = str(text)
+          if len(text) == 0:
+           return 0
+          
+          hash=0
+          for ch in text:
+           hash = (hash * 317 ^ ord(ch) * 761) & 0xFFFFFFFF
+          return hash
+        
     def sort(key):
         return key
 
@@ -48,13 +56,13 @@ class WordCountJob(BaseMapReduceJob):
         """
         Reads file Input{sequence_id} from input_dir, tokenize all words and convert to key value pairs of the form (word,1)
         """
-        
-        with open(input_dir + "/Input" + str(sequence_id)+".txt", "r") as f:
+
+        with open(input_dir + "/Input" + str(sequence_id) + ".txt", "r") as f:
             data = f.read()
             # spit on new lines and spaces
             return data
 
-    def parse_reducer_input(intermediate_dir, sequence_id,mapper_count):
+    def parse_reducer_input(intermediate_dir, sequence_id, mapper_count):
         """
         Reads the reducer input (intermediate) file and splits it into key value pairs
         """
@@ -62,7 +70,12 @@ class WordCountJob(BaseMapReduceJob):
         kv_pairs = []
         for i in range(1, mapper_count + 1):
             with open(
-                intermediate_dir + "/Intermediate_" + str(i) + "_" + str(sequence_id)+".txt",
+                intermediate_dir
+                + "/Intermediate_"
+                + str(i)
+                + "_"
+                + str(sequence_id)
+                + ".txt",
                 "r",
             ) as f:
                 data = f.read()
@@ -86,39 +99,46 @@ class WordCountJob(BaseMapReduceJob):
 
         # create empty partitions
 
-        
         for i in range(1, reducer_count + 1):
             open(
-                intermediate_dir + "/Intermediate_" + str(sequence_id) + "_" + str(i)+".txt",
+                intermediate_dir
+                + "/Intermediate_"
+                + str(sequence_id)
+                + "_"
+                + str(i)
+                + ".txt",
                 "a",
             ).close()
 
         # iterate over all key value pairs and use hash function to get the reducer id
         for kv_pair in kv_pairs:
             key = kv_pair[0]
-            reducer_id = (hash(key) % reducer_count) + 1
+            reducer_id = (WordCountJob.hash(key) % reducer_count) + 1
             # open the file and append the key value pair
 
-
-
             with open(
-                intermediate_dir + "/Intermediate_" + str(sequence_id) + "_" + str(reducer_id)+".txt",
+                intermediate_dir
+                + "/Intermediate_"
+                + str(sequence_id)
+                + "_"
+                + str(reducer_id)
+                + ".txt",
                 "a",
             ) as f:
                 f.write(str(kv_pair) + "\n")
-        
+
     def write_reducer_output(kv_pairs, output_dir, sequence_id):
         """
         Writes the reducer output to output files
         """
         # write to output directory
         # create empty partitions
-        open(output_dir + "/Output" + str(sequence_id)+".txt", "a").close()
+        open(output_dir + "/Output" + str(sequence_id) + ".txt", "a").close()
         # iterate over all key value pairs and use hash function to get the reducer id
         for kv_pair in kv_pairs:
             # open the file and append the key value pair
             with open(
-                output_dir + "/Output" + str(sequence_id)+".txt",
+                output_dir + "/Output" + str(sequence_id) + ".txt",
                 "a",
             ) as f:
                 # write in format <word> <count>

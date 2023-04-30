@@ -43,7 +43,7 @@ class Reducer:
 
             job = self.config.task.value
             self.kv_pairs = job.parse_reducer_input(
-                self.config.intermediate_dir, self.sequence_id,self.config.num_mappers
+                self.config.intermediate_dir, self.sequence_id, self.config.num_mappers
             )
 
             reducer_result = job.reduce(self.kv_pairs)

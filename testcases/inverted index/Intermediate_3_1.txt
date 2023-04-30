@@ -1,0 +1,5 @@
+('is', 3)
+('worship', 3)
+('Worship', 3)
+('faith', 3)
+('Faith', 3)

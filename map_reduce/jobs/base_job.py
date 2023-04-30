@@ -44,11 +44,10 @@ class BaseMapReduceJob:
                 "a",
             ).close()
 
-
     def write_reducer_output(kv_pairs, output_dir, sequence_id):
         """
         Writes the reducer output to output files
         """
         # write to output directory
         # create empty partitions
-        open(output_dir + "/Output" + str(sequence_id)+".txt", "a").close()
+        open(output_dir + "/Output" + str(sequence_id) + ".txt", "a").close()
