@@ -35,7 +35,7 @@ We have written code to apply the Reduce function to each group of values that b
 
 ## How to Run
 
-To run the MapReduce framework, follow these steps:
+To use this MapReduce implementation, follow these steps:
 
 Clone the repository:
 ```
