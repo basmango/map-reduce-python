@@ -58,7 +58,7 @@ use the cli to run the framework
 ./mr-cli.py --help
 ```
 
-Run tests:
+Run testcases:
 ```
 ./mr-cli.py run  2 2 NATURAL_JOIN testcases/natural\ join
 ./mr-cli.py run  3 2 WORD_COUNT testcases/word\ count
